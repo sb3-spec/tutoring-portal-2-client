@@ -11,11 +11,9 @@
 	// AUTH0 INIT
 
 	export let auth0 = null;
-	console.log(sessionStorage.getItem('userEmail'))
 
 	$: isLoggedIn = false;
 	$: alert = '';
-	$: message = '';
 
 	const fetchAuthConfig = () => fetch("http://localhost:5000/auth_config.json");
 
@@ -46,28 +44,34 @@
 			await login(auth0);
 			await checkAuthentication();
 		}
+
 	}
 
 	onMount(async () => {
 		await configureClient();
+		console.log(isLoggedIn)
 		
 			
 		const query = window.location.search;
 		
   		if (query.includes("code=") && query.includes("state=")) {
 
-			
-			// Process the login state
+			  // Process the login state
 			await auth0.handleRedirectCallback();
-
 			await checkAuthentication();
+
 			let user = await auth0.getUser();
+
 			TutorStore.set(user);
 
 			// Use replaceState to redirect the user away and remove the querystring parameters
 			window.history.replaceState({}, document.title, "/");
 		};
-		console.log(isLoggedIn);
+
+		if (!isLoggedIn && document.cookie.includes('is.authenticated=true')) {
+			await login(auth0);
+			TutorStore.set(await auth0.getUser());
+		}
 	});
 
 	onDestroy(() => {
@@ -84,12 +88,12 @@
 <main>
 	
 	<div class='app-container'>
-		{#if alert}
-			{message}
-		{/if}
+		<!-- {#if alert}
+			<Alert type
+		{/if} -->
 		
 		{#if isLoggedIn}
-			<Dashboard on:alert={(event) => alert = event.details.alert} on:logout={handleLogout}/>
+			<Dashboard on:alert={(event) => alert = event.detail} on:logout={handleLogout}/>
 		{:else}
 				
 			<button on:click={handleLogin}>Please login</button>
