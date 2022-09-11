@@ -13,7 +13,8 @@
     const unsubscribeSessions = SessionStore.subscribe(data => {
 
         if (data.length > 5) {
-            sessions = data.slice(5);
+            console.log(data)
+            sessions = data.slice(0, 5);
             return;
         }
         sessions = data;
@@ -26,7 +27,7 @@
     onDestroy(() => {
         unsubscribeSessions();
         unsubscribeClients();
-    })
+    });
 </script>
 
 <Widget className='recent-sessions'>

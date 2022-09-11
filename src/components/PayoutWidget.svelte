@@ -4,7 +4,9 @@
     import {SessionStore} from '../stores/SessionStore';
     import {ClientStore} from '../stores/ClientStore';
     import {ClientDuesStore} from '../stores/ClientDuesStore';
-import Widget from './widgets/Widget.svelte';
+
+    import Widget from './widgets/Widget.svelte';
+    import { getSum } from '../utils/helperFunctions';
 
     let clientDues = {};
 
@@ -27,15 +29,6 @@ import Widget from './widgets/Widget.svelte';
     })
     
 
-
-    function getSum(dues) {
-        let sum = 0;
-        for (let client of Object.keys(dues)) {
-            sum += clientDues[client];
-        }
-        
-        return sum;
-    }
 
     onDestroy(() => {
         unsubscribeFromClientStore();

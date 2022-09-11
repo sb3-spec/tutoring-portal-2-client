@@ -19,12 +19,14 @@
     <h1>Your Clients</h1>
     <div class="table-header">
         <h2>Name</h2>
-        <h2>Email</h2>
+        <h2 class="email">Email</h2>
+        <!-- <h2 class='rate'>Rate</h2> -->
     </div>
     {#each clients as client}
         <div class="client-glimpse">
             <h2>{client.name}</h2>
-            <h2>{client.email}</h2>
+            <h2 class="email">{client.email}</h2>
+            <!-- <h2 class='rate'>${client.rate}</h2> -->
         </div>
     {/each}
 </Widget>
@@ -32,6 +34,7 @@
 <style>
     .client-glimpse, .table-header {
         display: flex;
+        position: relative;
     }
 
     .client-glimpse h2 {
@@ -46,6 +49,15 @@
         min-width: 15ch;
     }
 
+    .table-header h2::after {
+        content: "";
+        border-bottom: 2px solid black;
+        width: 290px;
+        position: absolute;
+        bottom: 0;
+    }
 
+
+ 
 
 </style>

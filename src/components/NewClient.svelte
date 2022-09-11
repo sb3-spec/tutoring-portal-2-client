@@ -6,12 +6,18 @@
 
     import { TutorStore } from '../stores/TutorStore';
     import {api} from '../axios';
+    import { ClientStore } from '../stores/ClientStore';
 
     let tutorEmail = null;
+    let clients = [];
 
     const unsubscribe = TutorStore.subscribe(data => {
         tutorEmail = data.email;
     })
+
+    const unsubscribeClients = ClientStore.subscribe(data => {
+        clients = data;
+    });
 
     const formProps = {
         initialValues: {
@@ -29,7 +35,8 @@
 
             values.tutorEmail = tutorEmail
 
-            api.post('api/clients', values).then(() => {
+            api.post('api/clients', values).then((res) => {
+                ClientStore.set([...clients, res.data]);
                 dispatch('alert', 'Client successfully created')
             }).then((res) => {
                 console.log(res.status)
@@ -44,7 +51,8 @@
 
     onDestroy(() => {
         unsubscribe();
-    })
+        unsubscribeClients();
+    });
 </script>
 
 

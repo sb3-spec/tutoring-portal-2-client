@@ -12,6 +12,7 @@
     import PayoutWidget from '../PayoutWidget.svelte';
     import RecentSessions from '../sessions/RecentSessions.svelte';
     import ClientWidget from '../widgets/ClientWidget.svelte';
+    import { getOwedByClient } from '../../utils/helperFunctions';
     
     import {ActiveSectionStore} from '../../stores/ActiveSectionStore';
     import {ClientStore} from '../../stores/ClientStore';
@@ -19,9 +20,11 @@
     import {SessionStore} from '../../stores/SessionStore';
     import {ClientDuesStore} from '../../stores/ClientDuesStore';
 
-    $: activeSection = 'Dashboard';
 
+    $: activeSection = 'Dashboard';
+    $: focusedId = '';
     $: sessions = [];
+
     let clients = [];
     let tutorEmail = '';
 
@@ -77,23 +80,7 @@
         dispatch('logout', event.detail);
     }
 
-    function getOwedByClient(sessions) {
-        let clientDues = {};
-        
-        for (let session of sessions) {
-            if (Object.keys(clientDues).includes(clientNames[session.clientUuid])) {
-                clientDues[clientNames[session.clientUuid]] += session.payout;
-            } else {
-                clientDues[clientNames[session.clientUuid]] = session.payout;
-            } 
-        }
-
-        ClientDuesStore.set(clientDues);
-
-    };
-
-    
-
+  
     async function fetchSessions(date) {
         if (!tutorEmail) {return};
 
@@ -105,8 +92,8 @@
 
         await api.get(`api/tutors/sessions/${uriEncodedText}/${uriEncodedDate}`).then((res) => {
             SessionStore.set(res.data);
-            getOwedByClient(res.data);
-
+            ClientDuesStore.set(getOwedByClient(res.data, clientNames));
+            
         }).catch((err) => {
             console.log(err.message)
         })
@@ -145,6 +132,12 @@
         fetchSessions(e.target.value);
     }
 
+    const handleFocusChange = (e) => {
+        focusedId = e.detail;
+
+
+    }
+
 
 </script>
 
@@ -158,7 +151,7 @@
 
             <MonthlyView>
                 {#each sessions as session}
-                    <Session {session}/>
+                    <Session {session} sessionFocused={focusedId === session.uuid} on:focusChange={handleFocusChange}/>
                 {/each}
             </MonthlyView>
             <PayoutWidget />

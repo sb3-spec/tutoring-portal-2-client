@@ -20,7 +20,7 @@
         overflow-x: hidden;
         -ms-overflow-style: none;  /* IE and Edge */
         scrollbar-width: none;  /* Firefox */
-        height: 75%;
+        height: 70%;
         padding-left: 20px;
         padding-top: 10px;
         max-width: 780px;
