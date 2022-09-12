@@ -17,7 +17,7 @@
     const unsubscribeFromClientStore = ClientStore.subscribe(data => {
         clients = data
         
-        if (clients) {
+        if (clients.length > 0) {
             selectedClientUuid = clients[0].uuid;
         }
     });
