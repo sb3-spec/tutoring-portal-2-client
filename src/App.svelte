@@ -17,7 +17,7 @@
 
 	
 
-	const fetchAuthConfig = () => fetch("https://tutoring-portal-backend.herokuapp.com/config.json"); // "http://localhost:5000/auth_config.json"
+	const fetchAuthConfig = () => fetch("https://tutoring-portal-backend.herokuapp.com/auth_config.json"); // "http://localhost:5000/auth_config.json"
 
 
 	const configureClient = async () => {
