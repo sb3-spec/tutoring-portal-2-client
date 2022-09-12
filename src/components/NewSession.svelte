@@ -87,7 +87,7 @@
         <ErrorMessage name='date' />
 
         <label for='length'>Session Length</label>
-        <Field type="number" name='length'/>
+        <Field type="number" name='length' step="any"/>
         <ErrorMessage name='length' />
         <button type="submit">Submit Session</button>
     </Form>
