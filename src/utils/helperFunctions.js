@@ -5,6 +5,7 @@ function dateFormatting(dateString) {
         'Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'
     ];
     if (date.getMonth() == 7) {
+        console.log(dateString)
         console.log(date.toLocaleString())
     }
     return `${months[date.getMonth()]} ${date.getDate() + 1}, ${date.getFullYear()}`;
