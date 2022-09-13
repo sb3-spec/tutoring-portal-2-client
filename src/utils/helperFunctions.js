@@ -8,7 +8,7 @@ function dateFormatting(dateString) {
         console.log(date)
         console.log(date.toLocaleString())
     }
-    return `${months[date.getUTCMonth()]} ${date.getDate() + 1}, ${date.getFullYear()}`;
+    return `${months[date.getUTCMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
 
 function clientNameToUUID(clients) {
