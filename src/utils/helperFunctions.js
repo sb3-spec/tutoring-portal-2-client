@@ -1,14 +1,14 @@
 function dateFormatting(dateString) {
-    let date = new Date(dateString.split('T')[0]);
+    let date = new Date(dateString);
 
     let months = [
         'Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'
     ];
     if (date.getMonth() == 7) {
-        console.log(dateString)
+        console.log(date)
         console.log(date.toLocaleString())
     }
-    return `${months[date.getMonth()]} ${date.getDate() + 1}, ${date.getFullYear()}`;
+    return `${months[date.getUTCMonth()]} ${date.getDate() + 1}, ${date.getFullYear()}`;
 }
 
 function clientNameToUUID(clients) {
