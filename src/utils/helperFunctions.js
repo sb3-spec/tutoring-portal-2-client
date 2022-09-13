@@ -14,7 +14,7 @@ function dateFormatting(dateString) {
 function clientNameToUUID(clients) {
     let clientNames = {};
     for (let client of clients) {
-        clientNames[client.uuid] = client.name
+        clientNames[client.uuid] = client.name;
     };
 
     return clientNames;
