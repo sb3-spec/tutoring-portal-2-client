@@ -1,11 +1,13 @@
 <script>
 	import { onMount, onDestroy } from 'svelte';
 	import createAuth0Client from '@auth0/auth0-spa-js';
+	import CryptoJS from 'crypto-js'
 
 
 	import Dashboard from './components/dashboard/Dashboard.svelte'
 	import { login, logout } from './auth0/auth';
 	import {TutorStore} from './stores/TutorStore';
+    import {api} from "./axios";
 	
 	
 	// AUTH0 INIT
@@ -51,7 +53,6 @@
 
 	onMount(async () => {
 		await configureClient();
-		console.log(isLoggedIn)
 		
 			
 		const query = window.location.search;
@@ -63,6 +64,20 @@
 			await checkAuthentication();
 
 			let user = await auth0.getUser();
+
+
+			api.post(`/api/tutors`, {
+						email: user.email,
+						firstName: user.given_name || user.email,
+						lastName: user.family_name || user.email
+			}).then(() => {
+				console.log('Tutor successfully created')
+			}).catch(err => {
+				if (err.code === 400) {
+					// Trying to creat a tutor on sign in to account for new users.
+					console.log("Returning user")
+				}
+			});
 
 			TutorStore.set(user);
 

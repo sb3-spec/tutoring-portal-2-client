@@ -34,7 +34,7 @@
     const formProps = {
         initialValues: {
             length: 1,
-            date: new Date()
+            date: Date()
         },
         validationSchema: yup.object().shape({
             length: yup.number().required("The session length is required"),
@@ -83,7 +83,7 @@
 
     <Form {...formProps}>
         <label for="date">Date</label>
-        <Field type="date" name='date'/>
+        <Field type="date" name='date' default={new Date()}/>
         <ErrorMessage name='date' />
 
         <label for='length'>Session Length</label>
@@ -96,6 +96,10 @@
 <style>
     .new-session {
         position: relative;
+    }
+    
+    #clients {
+        margin-bottom: 3%;
     }
 
     .new-session::after {
